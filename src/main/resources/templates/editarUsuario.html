@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Evaluador</title>
+    <!-- loader-->
+    <link th:href="@{/css/principal_css/pace.min.css}" rel="stylesheet"/>
+    <script th:src="@{/css/js/pace.min.js}"></script>
+    <!--favicon-->
+    <link rel="icon" th:href="@{/css/images/favicon.ico}" type="image/x-icon">
+    <!-- simplebar CSS-->
+    <link th:href="@{/css/plugins/simplebar/css/simplebar.css}" rel="stylesheet"/>
+    <!-- Bootstrap core CSS-->
+    <link th:href="@{/css/principal_css/bootstrap.min.css}" rel="stylesheet"/>
+    <!-- animate CSS-->
+    <link th:href="@{/css/principal_css/animate.css}" rel="stylesheet" type="text/css"/>
+    <!-- Icons CSS-->
+    <link th:href="@{/css/principal_css/icons.css}" rel="stylesheet" type="text/css"/>
+    <!-- Sidebar CSS-->
+    <link th:href="@{/css/principal_css/sidebar-menu.css}" rel="stylesheet"/>
+    <!-- Custom Style-->
+    <link th:href="@{/css/principal_css/app-style.css}" rel="stylesheet"/>
+</head>
+<body class="bg-theme bg-theme1">
+<div class="clearfix"></div>
+<div id="wrapper">
+    <!--Start sidebar-wrapper-->
+    <div th:replace="sidebar/vertical :: barraCompleta"></div>
+    <!--End sidebar-wrapper-->
+
+    <!--Start topbar header-->
+    <div th:replace="sidebar/horizontal :: barraCompleta"></div>
+    <!--End topbar header-->
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <div class="row mt-3">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">Vertical Form</div>
+                            <hr>
+                            <div th:each="usuario : ${session.usuEditar}">
+                                <center>
+                                    <div class="profile-container">
+                                        <img th:if="${session.usuEditar.image == 'default.jpg'}"
+                                             th:src="@{/img/perfil.png}" width="30%" height="30%"
+                                             alt="Imagen por defecto"/>
+
+                                        <img th:if="${session.usuEditar.image != 'default.jpg'}"
+                                             th:src="@{'/' + ${session.usuEditar.image}}" width="30%" height="30%"
+                                             alt="Imagen de usuario"/>
+                                    </div>
+                                    <br>
+                                    <label th:text="${session.usuEditar.correo}"></label>
+                                </center>
+
+                                <form th:action="@{/editarUsuario}" method="POST" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="input-1">Correo institucional</label>
+                                        <input type="text" class="form-control" name="correo" id="input-1"
+                                               placeholder="Enter Your insitutional Email" th:value="${usuario.correo}"
+                                               required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input-3">contraseña</label>
+                                        <input type="password" class="form-control" name="contrasenia" id="input-3"
+                                               placeholder="Enter Your Password" th:value="${usuario.contrasenia}"
+                                               required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input-4">Imagen</label>
+                                        <input type="file" class="form-control" name="image" id="input-4"
+                                               placeholder="Enter Your profile image" th:value="${usuario.image}"
+                                               required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input-5">Rol</label>
+                                        <select class="form-control" id="input-5" name="rol" th:value="${usuario.rol}"
+                                                required>
+                                            <option value="Administrador">Administrador</option>
+                                            <option value="espectador">espectador</option>
+                                            <option value="evaluador">evaluador</option>
+                                            <option value="usuarios">usuarios</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-light px-5"><i class="icon-lock"></i>
+                                            Editar
+                                        </button>
+                                    </div>
+                                    <div class="form-group">
+                                        <a class="btn btn-light px-5" th:href="@{/verUsuarios}">
+                                            <i class="icon-lock"></i> Cancelar
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!--End Row-->
+            <!--start overlay-->
+            <div class="overlay toggle-menu"></div>
+            <!--end overlay-->
+        </div>
+        <!-- End container-fluid-->
+    </div>
+    <div th:replace="sidebar/theme :: theme"></div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/css/js/jquery.min.js}"></script>
+<script th:src="@{/css/js/popper.min.js}"></script>
+<script th:src="@{/css/js/bootstrap.min.js}"></script>
+
+<!-- simplebar js -->
+<script th:src="@{/css/plugins/simplebar/js/simplebar.js}"></script>
+<!-- sidebar-menu js -->
+<script th:src="@{/css/js/sidebar-menu.js}"></script>
+<!-- Custom scripts -->
+<script th:src="@{/css/js/app-script.js}"></script>
+<!-- Chart js -->
+<script th:src="@{/css/plugins/Chart.js/Chart.min.js}"></script>
+
+<!-- Index js -->
+<script th:src="@{/css/js/index.js}"></script>
+</body>
+
+</html>

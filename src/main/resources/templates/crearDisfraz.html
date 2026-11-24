@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Sastreria</title>
+  <!-- loader-->
+  <link th:href="@{/css/principal_css/pace.min.css}" rel="stylesheet"/>
+  <script th:src="@{/css/js/pace.min.js}"></script>
+  <!--favicon-->
+  <link rel="icon" th:href="@{/css/images/favicon.ico}" type="image/x-icon">
+  <!-- Vector CSS -->
+  <link th:href="@{/css/plugins/vectormap/jquery-jvectormap-2.0.2.css}" rel="stylesheet"/>
+  <!-- simplebar CSS-->
+  <link th:href="@{/css/plugins/simplebar/css/simplebar.css}" rel="stylesheet"/>
+  <!-- Bootstrap core CSS-->
+  <link th:href="@{/css/principal_css/bootstrap.min.css}" rel="stylesheet"/>
+  <!-- animate CSS-->
+  <link th:href="@{/css/principal_css/animate.css}" rel="stylesheet" type="text/css"/>
+  <!-- Icons CSS-->
+  <link th:href="@{/css/principal_css/icons.css}" rel="stylesheet" type="text/css"/>
+  <!-- Sidebar CSS-->
+  <link th:href="@{/css/principal_css/sidebar-menu.css}" rel="stylesheet"/>
+  <!-- Custom Style-->
+  <link th:href="@{/css/principal_css/app-style.css}" rel="stylesheet"/>
+</head>
+<body class="bg-theme bg-theme1">
+<div id="wrapper">
+  <!--Start sidebar-wrapper-->
+  <div th:replace="sidebar/vertical :: barraCompleta"></div>
+  <!--End sidebar-wrapper-->
+
+  <!--Start topbar header-->
+  <div th:replace="sidebar/horizontal :: barraCompleta"></div>
+  <div class="clearfix"></div>
+
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <div class="row mt-3">
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-title">Vertical Form</div>
+              <hr>
+              <form th:action="@{/crearDisfraz}" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                  <label for="input-3">Color</label>
+                  <input type="text" class="form-control" name="color" id="input-3"
+                         placeholder="Enter COLOR" required>
+                </div>
+                <div class="form-group">
+                  <label for="input-4">Marca</label>
+                  <input type="text" class="form-control" name="marca" id="input-4"
+                         placeholder="Enter Your name" required>
+                </div>
+                <div class="form-group">
+                  <label for="input-5">Referencia</label>
+                  <input type="text" class="form-control" name="refer" id="input-5"
+                         placeholder="Enter Your Mobile Number" required>
+                </div>
+                <div class="form-group">
+                  <label for="input-6">Nombre del disfraz</label>
+                  <input type="text" class="form-control" name="nombre" id="input-6"
+                         placeholder="Enter Your Mobile Number" required>
+                </div>
+
+                <div class="form-group">
+                  <button type="submit" class="btn btn-light px-5"><i class="icon-lock"></i> crear
+                    Disfraz
+                  </button>
+                </div>
+                <div class="form-group">
+                  <a class="btn btn-light px-5" th:href="@{/verDisfraces}">
+                    <i class="icon-lock"></i> Cancelar
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div><!--End Row-->
+      <!--start overlay-->
+      <div class="overlay toggle-menu"></div>
+      <!--end overlay-->
+    </div>
+    <!-- End container-fluid-->
+  </div>
+  <div th:replace="sidebar/theme :: theme"></div>
+</div>
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/css/js/jquery.min.js}"></script>
+<script th:src="@{/css/js/popper.min.js}"></script>
+<script th:src="@{/css/js/bootstrap.min.js}"></script>
+
+<!-- simplebar js -->
+<script th:src="@{/css/plugins/simplebar/js/simplebar.js}"></script>
+<!-- sidebar-menu js -->
+<script th:src="@{/css/js/sidebar-menu.js}"></script>
+<!-- loader scripts -->
+<script th:src="@{/css/js/jquery.loading-indicator.js}"></script>
+<!-- Custom scripts -->
+<script th:src="@{/css/js/app-script.js}"></script>
+<!-- Chart js -->
+<script th:src="@{/css/plugins/Chart.js/Chart.min.js}"></script>
+
+<!-- Index js -->
+<script th:src="@{/css/js/index.js}"></script>
+</body>
+
+</html>

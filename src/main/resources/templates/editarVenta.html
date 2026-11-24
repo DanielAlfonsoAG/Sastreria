@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Sastreria</title>
+  <!-- loader-->
+  <link th:href="@{/css/principal_css/pace.min.css}" rel="stylesheet"/>
+  <script th:src="@{/css/js/pace.min.js}"></script>
+  <!--favicon-->
+  <link rel="icon" th:href="@{/css/images/favicon.ico}" type="image/x-icon">
+  <!-- Vector CSS -->
+  <link th:href="@{/css/plugins/vectormap/jquery-jvectormap-2.0.2.css}" rel="stylesheet"/>
+  <!-- simplebar CSS-->
+  <link th:href="@{/css/plugins/simplebar/css/simplebar.css}" rel="stylesheet"/>
+  <!-- Bootstrap core CSS-->
+  <link th:href="@{/css/principal_css/bootstrap.min.css}" rel="stylesheet"/>
+  <!-- animate CSS-->
+  <link th:href="@{/css/principal_css/animate.css}" rel="stylesheet" type="text/css"/>
+  <!-- Icons CSS-->
+  <link th:href="@{/css/principal_css/icons.css}" rel="stylesheet" type="text/css"/>
+  <!-- Sidebar CSS-->
+  <link th:href="@{/css/principal_css/sidebar-menu.css}" rel="stylesheet"/>
+  <!-- Custom Style-->
+  <link th:href="@{/css/principal_css/app-style.css}" rel="stylesheet"/>
+</head>
+<body class="bg-theme bg-theme1">
+<div id="wrapper">
+  <!--Start sidebar-wrapper-->
+  <div th:replace="sidebar/vertical :: barraCompleta"></div>
+  <!--End sidebar-wrapper-->
+
+  <!--Start topbar header-->
+  <div th:replace="sidebar/horizontal :: barraCompleta"></div>
+  <div class="clearfix"></div>
+
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <div class="row mt-3">
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-title">Vertical Form</div>
+              <hr>
+              <form th:action="@{/editarVenta}" th:object="${ventaEditar}" method="POST">
+                <input type="hidden" th:field="*{id_prendavendida}"/>
+                <div class="form-group">
+                  <label>Precio</label>
+                  <input type="number" class="form-control" th:field="*{precio}" required>
+                </div>
+                <!-- Cliente -->
+                <div>
+                  <input type="checkbox" id="chkVestido" onchange="toggleSelect('chkVestido','selectVestido')">
+                  <label for="chkVestido">Vestidos de Dama</label>
+                </div>
+
+                <select id="selectVestido" name="vestidoId" disabled class="form-control mt-2">
+                  <option value="">--- Seleccione un vestido ---</option>
+                  <option th:each="v : ${vestidos}"
+                          th:value="${v.id_prenda}"
+                          th:text="${v.refer}">
+                  </option>
+                </select>
+
+                <div class="mt-3">
+                  <input type="checkbox" id="chkTraje" onchange="toggleSelect('chkTraje','selectTraje')">
+                  <label for="chkTraje">Trajes de Caballero</label>
+                </div>
+
+                <select id="selectTraje" name="trajeId" disabled class="form-control mt-2">
+                  <option value="">--- Seleccione un traje ---</option>
+                  <option th:each="t : ${trajes}"
+                          th:value="${t.id_prenda}"
+                          th:text="${t.refer}">
+                  </option>
+                </select>
+
+                <div class="mt-3">
+                  <input type="checkbox" id="chkDisfraz" onchange="toggleSelect('chkDisfraz','selectDisfraz')">
+                  <label for="chkDisfraz">Disfraces</label>
+                </div>
+
+                <select id="selectDisfraz" name="disfrazId" disabled class="form-control mt-2">
+                  <option value="">--- Seleccione un disfraz ---</option>
+                  <option th:each="d : ${disfraces}"
+                          th:value="${d.id_prenda}"
+                          th:text="${d.refer}">
+                  </option>
+                </select>
+                <select class="form-control" name="clienteId" required>
+                  <option value="">--- Seleccione un cliente ---</option>
+                  <option th:each="c : ${clientes}"
+                          th:value="${c.id_persona}"
+                          th:text="${c.nombres}">
+                  </option>
+                </select>
+            <div class="form-group">
+              <button type="submit" class="btn btn-light px-5">
+                Editar Prenda
+              </button>
+            </div>
+            <div class="form-group">
+              <a class="btn btn-light px-5" th:href="@{/verVentas}">
+                Cancelar
+              </a>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div><!--End Row-->
+    <!--start overlay-->
+    <div class="overlay toggle-menu"></div>
+    <!--end overlay-->
+  </div>
+  <!-- End container-fluid-->
+</div>
+<div th:replace="sidebar/theme :: theme"></div>
+</div>
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/css/js/jquery.min.js}"></script>
+<script th:src="@{/css/js/popper.min.js}"></script>
+<script th:src="@{/css/js/bootstrap.min.js}"></script>
+
+<!-- simplebar js -->
+<script th:src="@{/css/plugins/simplebar/js/simplebar.js}"></script>
+<!-- sidebar-menu js -->
+<script th:src="@{/css/js/sidebar-menu.js}"></script>
+<!-- loader scripts -->
+<script th:src="@{/css/js/jquery.loading-indicator.js}"></script>
+<!-- Custom scripts -->
+<script th:src="@{/css/js/app-script.js}"></script>
+<!-- Chart js -->
+<script th:src="@{/css/plugins/Chart.js/Chart.min.js}"></script>
+
+<!--<script th:src="@{/css/js/checkPrenda.js}"></script>-->
+<script>
+  function toggleSelect(chkId, selectId) {
+
+      // Desactivar todos los selects
+      document.getElementById("selectVestido").disabled = true;
+      document.getElementById("selectTraje").disabled = true;
+      document.getElementById("selectDisfraz").disabled = true;
+
+      // Deseleccionar selects
+      document.getElementById("selectVestido").value = "";
+      document.getElementById("selectTraje").value = "";
+      document.getElementById("selectDisfraz").value = "";
+
+      // Desmarcar otros checkboxes
+      if (chkId !== "chkVestido") document.getElementById("chkVestido").checked = false;
+      if (chkId !== "chkTraje") document.getElementById("chkTraje").checked = false;
+      if (chkId !== "chkDisfraz") document.getElementById("chkDisfraz").checked = false;
+
+      // Activar solo el select correspondiente
+      const chk = document.getElementById(chkId);
+      const sel = document.getElementById(selectId);
+
+      sel.disabled = !chk.checked;
+  }
+</script>
+
+<!-- Index js -->
+<script th:src="@{/css/js/index.js}"></script>
+</body>
+
+</html>

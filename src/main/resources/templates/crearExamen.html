@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Evaluador</title>
+    <!-- loader-->
+    <link th:href="@{/css/principal_css/pace.min.css}" rel="stylesheet"/>
+    <script th:src="@{/css/js/pace.min.js}"></script>
+    <!--favicon-->
+    <link rel="icon" th:href="@{/css/images/favicon.ico}" type="image/x-icon">
+    <!-- simplebar CSS-->
+    <link th:href="@{/css/plugins/simplebar/css/simplebar.css}" rel="stylesheet"/>
+    <!-- Bootstrap core CSS-->
+    <link th:href="@{/css/principal_css/bootstrap.min.css}" rel="stylesheet"/>
+    <!-- animate CSS-->
+    <link th:href="@{/css/principal_css/animate.css}" rel="stylesheet" type="text/css"/>
+    <!-- Icons CSS-->
+    <link th:href="@{/css/principal_css/icons.css}" rel="stylesheet" type="text/css"/>
+    <!-- Sidebar CSS-->
+    <link th:href="@{/css/principal_css/sidebar-menu.css}" rel="stylesheet"/>
+    <!-- Custom Style-->
+    <link th:href="@{/css/principal_css/app-style.css}" rel="stylesheet"/>
+</head>
+<body class="bg-theme bg-theme1">
+<div id="wrapper">
+    <!--Start sidebar-wrapper-->
+    <div th:replace="sidebar/vertical :: barraCompleta"></div>
+    <!--End sidebar-wrapper-->
+
+    <!--Start topbar header-->
+    <div th:replace="sidebar/horizontal :: barraCompleta"></div>
+    <div class="clearfix"></div>
+
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <div class="row mt-3">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">Vertical Form</div>
+                            <hr>
+                            <form th:action="@{/crearExamen}" th:object="${examen}" method="POST">
+                                <div class="form-group">
+                                    <label for="input-1">Titulo</label>
+                                    <input type="text" class="form-control" th:field="*{titulo}" id="input-1" required>
+                                    <div th:if="${errorTitulo}" class="text-danger mt-1" th:text="${errorTitulo}"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-3">Descripcion</label>
+                                    <input type="text" class="form-control" th:field="*{descripcion}" id="input-3"
+                                           required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-4">Dificultad</label>
+                                    <input type="number" class="form-control" th:field="*{dificultad}" id="input-4"
+                                           required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-5">Duracion</label>
+                                    <input type="number" class="form-control" th:field="*{duracion}" id="input-5"
+                                           required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="participantesSelect">participante</label>
+                                    <select class="form-control form-select" id="participantesSelect" name="id_usuario" required>
+                                        <option value="">--- Seleccione---</option>
+                                        <option th:each="usuario : ${usuarios}"
+                                                th:value="${usuario.id}"
+                                                th:text="${usuario.nombreUsuario}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-primary mt-2"
+                                        onclick="agregarParticipante()">Agregar participante
+                                </button>
+                                <ul id="listaParticipantes" class="mt-3 list-group"></ul>
+                                <!-- Campo oculto con los IDs seleccionados -->
+                                <input type="hidden" name="participantes" id="participantesInput"/>
+
+                                <div class="form-group">
+                                    <label for="input-8">Tiempo de Inicio</label>
+                                    <input type="datetime-local" class="form-control" th:field="*{tiempoInicio}"
+                                           id="input-8"
+                                           required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-9">Tiempo de Finalizacion</label>
+                                    <input type="datetime-local" class="form-control" th:field="*{tiempoFinal}"
+                                           id="input-9"
+                                           required>
+                                </div>
+                                <div id="preguntas-container" data-contador="[[${examen.preguntas.size()}]]">
+                                    <label>Preguntas</label>
+                                    <div th:each="pregunta, iter : *{preguntas}">
+                                      <textarea class="form-control mb-2"
+                                                th:field="*{preguntas[__${iter.index}__].texto}"
+                                                th:id="|pregunta-${iter.index}|"
+                                                rows="3"
+                                                required></textarea>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary mt-2" onclick="agregarPregunta()">Agregar
+                                    pregunta
+                                </button>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-light px-5"><i class="icon-lock"></i>
+                                        Crear Examen
+                                    </button>
+                                </div>
+                                <div class="form-group">
+                                    <a class="btn btn-light px-5" th:href="@{/verExamen}">
+                                        <i class="icon-lock"></i> Cancelar
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!--End Row-->
+            <!--start overlay-->
+            <div class="overlay toggle-menu"></div>
+            <!--end overlay-->
+        </div>
+        <!-- End container-fluid-->
+    </div>
+    <div th:replace="sidebar/theme :: theme"></div>
+</div>
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/css/js/jquery.min.js}"></script>
+<script th:src="@{/css/js/popper.min.js}"></script>
+<script th:src="@{/css/js/bootstrap.min.js}"></script>
+
+<!-- simplebar js -->
+<script th:src="@{/css/plugins/simplebar/js/simplebar.js}"></script>
+<!-- sidebar-menu js -->
+<script th:src="@{/css/js/sidebar-menu.js}"></script>
+<!-- Custom scripts -->
+<script th:src="@{/css/js/app-script.js}"></script>
+<!-- Chart js -->
+<script th:src="@{/css/plugins/Chart.js/Chart.min.js}"></script>
+
+<!-- agregar pregunta -->
+<script th:src="@{/js/agregarPregunta.js}"></script>
+
+<!-- agregar pregunta -->
+<script th:src="@{/js/agregarParticipante.js}"></script>
+
+<!-- Index js -->
+<script th:src="@{/css/js/index.js}"></script>
+</body>
+
+</html>

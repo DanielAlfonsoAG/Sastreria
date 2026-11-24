@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>Evaluador</title>
+    <link th:href="@{/css/estilos.css}" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-primary">
+<main>
+    <div class="contenedor_Todo">
+        <div class="cajas">
+            <div class="caja__Izquierda-Login">
+                <h3>¿Ya tienes cuenta?</h3>
+                <p>Inicia sesión para entrar en la página</p>
+                <button id="btn_iniciar-sesion">Iniciar Sesión</button>
+            </div>
+            <div class="caja__Derecha-Registro">
+                <h3>¿Aun no tienes una cuenta?</h3>
+                <p>Regístrate para que puedas iniciar sesión</p>
+                <button id="btn_registrarse">Registrate</button>
+            </div>
+        </div>
+
+        <div class="contenedor__login-registro">
+            <!-- Login -->
+            <form th:action="@{/login}" method="POST" class="formulario__login">
+                <h2>Iniciar Sesión</h2>
+                <input type="email" placeholder="Usuario" name="correo" required>
+                <input type="password" placeholder="Contraseña" name="contrasenia" required>
+                <button type="submit">Entrar</button>
+                <div th:if="${session.error}">
+                    <p style="color: red;">Usuario o contraseña incorrectos.</p>
+                </div>
+                <div th:if="${param.existe}">
+                    <p style="color: red;">El usuario ya existe. Intente con otro nombre.</p>
+                </div>
+                <div th:if="${param.registrado}">
+                    <p th:text="${session.mensajeRegistro}" style="color: green;"></p>
+                </div>
+            </form>
+
+
+            <!-- Registro -->
+            <form th:action="@{/registro}" method="POST" class="formulario__Registro" enctype="multipart/form-data">
+                <h2>Registrarse</h2>
+                <input type="email" placeholder="Correo" name="correo" required>
+                <input type="password" placeholder="Contraseña" name="contrasenia" required>
+                <input type="hidden" name="rol" value="usuarios">
+                <button type="submit">Registrarse</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script th:src="@{/js/JavaScript.js}"></script>
+</body>
+</html>
